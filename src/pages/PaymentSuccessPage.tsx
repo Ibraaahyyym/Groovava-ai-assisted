@@ -2,10 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { CheckCircle, XCircle, Loader2, ArrowLeft, CreditCard } from 'lucide-react';
 
+interface PaymentDetails {
+  reference: string | null;
+  status: string | null;
+  timestamp: string;
+}
+
 const PaymentSuccessPage: React.FC = () => {
   const location = useLocation();
   const [paymentStatus, setPaymentStatus] = useState<'loading' | 'success' | 'failed' | 'cancelled'>('loading');
-  const [paymentDetails, setPaymentDetails] = useState<any>(null);
+  const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
 
   useEffect(() => {
     // Parse URL parameters
@@ -94,8 +100,8 @@ const PaymentSuccessPage: React.FC = () => {
     <div className="min-h-screen bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 flex items-center justify-center p-4 transition-colors duration-300">
       <div className="max-w-md w-full">
         {/* Back to Events Link */}
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -105,11 +111,11 @@ const PaymentSuccessPage: React.FC = () => {
         {/* Payment Status Card */}
         <div className="bg-gray-100 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700/50 p-8 text-center transition-colors duration-300">
           {getStatusIcon()}
-          
+
           <h1 className={`text-2xl font-bold mb-4 ${statusInfo.color}`}>
             {statusInfo.title}
           </h1>
-          
+
           <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed transition-colors duration-300">
             {statusInfo.message}
           </p>
@@ -154,7 +160,7 @@ const PaymentSuccessPage: React.FC = () => {
                 View My Tickets
               </Link>
             )}
-            
+
             {(paymentStatus === 'failed' || paymentStatus === 'cancelled') && (
               <button
                 onClick={() => window.history.back()}
@@ -163,7 +169,7 @@ const PaymentSuccessPage: React.FC = () => {
                 Try Again
               </button>
             )}
-            
+
             <Link
               to="/"
               className="block w-full px-6 py-3 border border-gray-400 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:border-gray-500 dark:hover:border-gray-500 font-semibold rounded-lg transition-all duration-200 text-center"

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { supabase } from './lib/supabase';
 import { User as SupabaseUser } from '@supabase/supabase-js';
-import { Calendar, MapPin, Clock, Users, Menu, X, User, Loader2, Search, Eye, CreditCard } from 'lucide-react';
+import { Calendar, MapPin, Clock, Loader2, Search, Eye, CreditCard } from 'lucide-react';
 import AuthModal from './components/AuthModal';
 import EventModal from './components/EventModal';
 import EventFormModal from './components/EventFormModal';
@@ -15,13 +15,13 @@ interface Event {
   id: number;
   title: string;
   description: string;
-  location?: string;
+  location: string;
   venue: string;
   date: string;
   time: string;
-  organizer: string;
+  organizer?: string;
   category: string;
-  price: string;
+  price?: string;
   image: string;
 }
 
@@ -43,8 +43,6 @@ function HomePage({
   setShowEventForm,
   authMode,
   setAuthMode,
-  mobileMenuOpen,
-  setMobileMenuOpen,
   fetchEvents
 }: {
   user: SupabaseUser | null;
@@ -60,8 +58,6 @@ function HomePage({
   setShowEventForm: (show: boolean) => void;
   authMode: 'signin' | 'signup';
   setAuthMode: (mode: 'signin' | 'signup') => void;
-  mobileMenuOpen: boolean;
-  setMobileMenuOpen: (open: boolean) => void;
   fetchEvents: () => void;
 }) {
   // Filter events based on search query
@@ -73,7 +69,7 @@ function HomePage({
       event.title.toLowerCase().includes(query) ||
       event.description.toLowerCase().includes(query) ||
       event.venue.toLowerCase().includes(query) ||
-      event.organizer.toLowerCase().includes(query) ||
+      (event.organizer && event.organizer.toLowerCase().includes(query)) ||
       event.category.toLowerCase().includes(query) ||
       (event.location && event.location.toLowerCase().includes(query))
     );
@@ -87,7 +83,7 @@ function HomePage({
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link to="/" className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
-                GROOVAVA B
+                Ticketsef
               </Link>
             </div>
 
@@ -403,7 +399,6 @@ function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showEventForm, setShowEventForm] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     // Get initial session
@@ -426,7 +421,7 @@ function App() {
   const fetchEvents = async () => {
     try {
       const { data, error } = await supabase
-        .from('events')
+        .from('groovanna b')
         .select('*')
         .order('date', { ascending: true });
 
@@ -474,8 +469,6 @@ function App() {
               setShowEventForm={setShowEventForm}
               authMode={authMode}
               setAuthMode={setAuthMode}
-              mobileMenuOpen={mobileMenuOpen}
-              setMobileMenuOpen={setMobileMenuOpen}
               fetchEvents={fetchEvents}
             />
           }

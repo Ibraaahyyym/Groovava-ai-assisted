@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Clock, MapPin, User, Music, Tag, DollarSign, FileText, Upload, Loader2 } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, Music, Tag, FileText, Upload, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import TicketPriceInput, { TicketType } from './TicketPriceInput';
-import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 interface Event {
   id: number;
@@ -11,11 +10,11 @@ interface Event {
   time: string;
   venue: string;
   location: string;
-  organizer: string;
+  organizer?: string;
   description: string;
   category: string;
-  price: string;
-  image: string;
+  price?: string;
+  image?: string;
 }
 
 interface EventFormModalProps {
@@ -192,14 +191,14 @@ const EventFormModal: React.FC<EventFormModalProps> = ({ isOpen, onClose, onEven
       if (initialEvent) {
         // Update existing event
         const { error: updateError } = await supabase
-          .from('events')
+          .from('groovanna b')
           .update(eventData)
           .eq('id', initialEvent.id);
         error = updateError;
       } else {
         // Insert new event
         const { error: insertError } = await supabase
-          .from('events')
+          .from('groovanna b')
           .insert([eventData]);
         error = insertError;
       }

@@ -118,6 +118,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode: initialMod
           }, 1500);
         }
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Auth error:', error);
       setError(error.message || 'An unexpected error occurred');
@@ -163,8 +164,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode: initialMod
             {mode === 'signup' ? 'Join the Movement' : 'Welcome Back'}
           </h2>
           <p className="text-purple-100">
-            {mode === 'signup' 
-              ? 'Create your account to discover amazing music events' 
+            {mode === 'signup'
+              ? 'Create your account to discover amazing music events'
               : 'Sign in to your account to continue'
             }
           </p>

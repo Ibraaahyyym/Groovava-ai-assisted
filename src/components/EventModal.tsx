@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { X, Calendar, Clock, MapPin, User, Music, Tag, Loader2, UserPlus, ShoppingCart, Sparkles, CreditCard, AlertCircle } from 'lucide-react';
+import React, { useEffect, useCallback } from 'react';
+import { X, Calendar, Clock, MapPin, Music, Tag, Loader2, UserPlus, ShoppingCart, Sparkles, AlertCircle } from 'lucide-react';
 import EventFormModal from './EventFormModal';
 import { supabase } from '../lib/supabase';
-// import type { User as SupabaseUser } from '@supabase/supabase-js';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 interface Event {
   id: number;
@@ -38,7 +38,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, displayMode, isOpen, onC
   const [paymentError, setPaymentError] = React.useState<string | null>(null);
 
   // Check if user is attending this event
-  const checkUserAttendance = async () => {
+  const checkUserAttendance = useCallback(async () => {
     if (!user || !event) return;
 
     setCheckingAttendance(true);
@@ -63,7 +63,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, displayMode, isOpen, onC
     } finally {
       setCheckingAttendance(false);
     }
-  };
+  }, [user, event]);
 
   // Check attendance when modal opens or user/event changes
   useEffect(() => {
@@ -73,7 +73,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, displayMode, isOpen, onC
       setUserIsAttending(false);
       setCheckingAttendance(false);
     }
-  }, [isOpen, user, event]);
+  }, [isOpen, user, event, checkUserAttendance]);
 
   // Handle escape key press
   useEffect(() => {
@@ -134,11 +134,11 @@ const EventModal: React.FC<EventModalProps> = ({ event, displayMode, isOpen, onC
 
     try {
       console.log('Attempting to delete event from Supabase...');
-      console.log('Table: events');
+      console.log('Table: groovanna b');
       console.log('Filter: id =', event.id);
 
       const { error } = await supabase
-        .from('events')
+        .from('groovanna b')
         .delete()
         .eq('id', event.id);
 
@@ -201,7 +201,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, displayMode, isOpen, onC
       }
     } catch (error) {
       console.error('Error updating attendance:', error);
-      if (error.code === 'PGRST205') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((error as any).code === 'PGRST205') {
         alert('Attendees feature is not yet available. Please contact support.');
         return;
       }
@@ -215,7 +216,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, displayMode, isOpen, onC
   // Handle buy ticket action
   const handleBuyTicket = async (ticketType: string, price: string) => {
     if (!user) {
-      alert('Please sign in to purchase tickets');
+      alert('You need to sign up or sign in to purchase tickets');
       return;
     }
 
@@ -237,7 +238,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, displayMode, isOpen, onC
         amount: amountInKobo,
         email: user.email,
         reference: reference,
-        callback_url: `${window.location.origin}/payment-success`,
+        callback_url: `${window.location.origin}${import.meta.env.BASE_URL}#/payment-success`,
         metadata: {
           event_id: event.id,
           ticket_type: ticketType,
@@ -594,8 +595,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, displayMode, isOpen, onC
                   ) : (
                     <button
                       className={`px-6 py-3 font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 hover:shadow-lg flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100 ${userIsAttending
-                          ? 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white hover:shadow-red-500/25'
-                          : 'bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white hover:shadow-purple-500/25'
+                        ? 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white hover:shadow-red-500/25'
+                        : 'bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white hover:shadow-purple-500/25'
                         }`}
                       onClick={handleAttendEvent}
                       disabled={isAttending}

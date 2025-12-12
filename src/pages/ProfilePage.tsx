@@ -40,7 +40,7 @@ const EventCard: React.FC<{ event: Event }> = ({ event }) => {
             </span>
           </div>
         </div>
-
+        
         <div className="flex-1 p-4">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-300">{event.title}</h3>
           <div className="space-y-1 text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
@@ -62,13 +62,13 @@ const EventCard: React.FC<{ event: Event }> = ({ event }) => {
                 <div className="flex flex-col">
                   {(() => {
                     if (!event.price) return "Free";
-
+                    
                     try {
                       const tickets = JSON.parse(event.price);
                       if (Array.isArray(tickets) && tickets.length > 0) {
                         const validTickets = tickets.filter(t => t.type && t.price);
                         if (validTickets.length === 0) return "Free";
-
+                        
                         if (validTickets.length === 1) {
                           return `${validTickets[0].type}: ₦${validTickets[0].price}`;
                         } else {
@@ -116,13 +116,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
       // Fetch only events created by the current user
       const { data, error } = await supabase
-        .from('events')
+        .from('groovanna b')
         .select('*')
         .eq('creator_id', user.id)
         .order('date', { ascending: true });
 
       if (error) throw error;
-
+      
       setCreatedEvents(data || []);
     } catch (err) {
       console.error('Error fetching created events:', err);
@@ -146,7 +146,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
         .from('attendees')
         .select(`
           event_id,
-          "events" (
+          "groovanna b" (
             id,
             title,
             date,
@@ -165,23 +165,23 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-
+      
       // Transform the data to match the Event interface
       const events = data?.map(item => ({
-        id: item['events'].id,
-        title: item['events'].title,
-        date: item['events'].date,
-        time: item['events'].time,
-        venue: item['events'].venue,
-        location: item['events'].location,
-        organizer: item['events'].organizer,
-        description: item['events'].description,
-        category: item['events'].category,
-        price: item['events'].price,
-        image: item['events'].image,
-        creator_id: item['events'].creator_id
+        id: item['groovanna b'].id,
+        title: item['groovanna b'].title,
+        date: item['groovanna b'].date,
+        time: item['groovanna b'].time,
+        venue: item['groovanna b'].venue,
+        location: item['groovanna b'].location,
+        organizer: item['groovanna b'].organizer,
+        description: item['groovanna b'].description,
+        category: item['groovanna b'].category,
+        price: item['groovanna b'].price,
+        image: item['groovanna b'].image,
+        creator_id: item['groovanna b'].creator_id
       })) || [];
-
+      
       setAttendingEvents(events);
     } catch (err) {
       console.error('Error fetching attending events:', err);
@@ -195,12 +195,12 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
-
+      
       await Promise.all([
         fetchCreatedEvents(),
         fetchAttendingEvents()
       ]);
-
+      
       setLoading(false);
     };
 
@@ -228,8 +228,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
     <div className="min-h-screen bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 pt-20 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back to Home Link */}
-        <Link
-          to="/"
+        <Link 
+          to="/" 
           className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -243,7 +243,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
             <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-400 rounded-full flex items-center justify-center">
               <User className="w-10 h-10 text-white" />
             </div>
-
+            
             {/* User Info */}
             <div className="flex-1">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-300">{userDisplayName}</h1>
@@ -270,20 +270,22 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
           <div className="flex border-b border-gray-200 dark:border-gray-700/50">
             <button
               onClick={() => setActiveTab('created')}
-              className={`flex-1 px-6 py-4 text-center font-semibold transition-all duration-200 ${activeTab === 'created'
+              className={`flex-1 px-6 py-4 text-center font-semibold transition-all duration-200 ${
+                activeTab === 'created'
                   ? 'bg-purple-600 text-white'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700/50'
-                }`}
+              }`}
             >
               <Music className="w-5 h-5 inline mr-2" />
               Created Events ({createdEvents.length})
             </button>
             <button
               onClick={() => setActiveTab('attending')}
-              className={`flex-1 px-6 py-4 text-center font-semibold transition-all duration-200 ${activeTab === 'attending'
+              className={`flex-1 px-6 py-4 text-center font-semibold transition-all duration-200 ${
+                activeTab === 'attending'
                   ? 'bg-purple-600 text-white'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700/50'
-                }`}
+              }`}
             >
               <Calendar className="w-5 h-5 inline mr-2" />
               Attending Events ({attendingEvents.length})
@@ -321,7 +323,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
                   {activeTab === 'created' ? 'No Events Created Yet' : 'No Events Attended Yet'}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 transition-colors duration-300">
-                  {activeTab === 'created'
+                  {activeTab === 'created' 
                     ? 'Start creating amazing music events for your community!'
                     : 'Discover and attend exciting music events near you!'
                   }
