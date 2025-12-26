@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Calendar, Users, LogOut, Home } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import logo from '../assets/logo.jpg';
 
 const AdminLayout: React.FC = () => {
     const location = useLocation();
@@ -22,9 +23,7 @@ const AdminLayout: React.FC = () => {
             <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col fixed h-full transition-colors duration-300">
                 <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                     <Link to="/" className="flex items-center space-x-2">
-                        <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">
-                            Groovava Admin
-                        </span>
+                        <img src={logo} alt="Groovava Admin" className="h-8 w-auto" />
                     </Link>
                 </div>
 

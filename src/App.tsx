@@ -15,6 +15,7 @@ import AdminLayout from './layouts/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminEvents from './pages/admin/AdminEvents';
 import AdminUsers from './pages/admin/AdminUsers';
+import logo from './assets/logo.jpg';
 
 interface Event {
   id: number;
@@ -87,8 +88,8 @@ function HomePage({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link to="/" className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
-                Ticketsef
+              <Link to="/" className="flex items-center">
+                <img src={logo} alt="Ticketsef" className="h-10 w-auto" />
               </Link>
             </div>
 
