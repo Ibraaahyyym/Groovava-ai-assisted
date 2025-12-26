@@ -10,6 +10,11 @@ import ProfilePage from './pages/ProfilePage';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import BottomNavBar from './components/BottomNavBar';
 import ThemeToggle from './components/ThemeToggle';
+import AdminRoute from './components/AdminRoute';
+import AdminLayout from './layouts/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminEvents from './pages/admin/AdminEvents';
+import AdminUsers from './pages/admin/AdminUsers';
 
 interface Event {
   id: number;
@@ -487,6 +492,15 @@ function App() {
           path="/payment-success"
           element={<PaymentSuccessPage />}
         />
+
+        {/* Admin Routes */}
+        <Route element={<AdminRoute user={user} />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="events" element={<AdminEvents />} />
+            <Route path="users" element={<AdminUsers />} />
+          </Route>
+        </Route>
       </Routes>
     </Router>
   );
