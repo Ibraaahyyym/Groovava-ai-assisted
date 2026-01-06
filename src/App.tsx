@@ -89,7 +89,7 @@ function HomePage({
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
-                <img src={logo} alt="Ticketsef" className="h-10 w-auto" />
+                <img src={logo} alt="Ticketsef" className="h-16 w-auto" />
               </Link>
             </div>
 

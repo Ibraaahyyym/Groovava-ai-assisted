@@ -23,7 +23,7 @@ const AdminLayout: React.FC = () => {
             <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col fixed h-full transition-colors duration-300">
                 <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                     <Link to="/" className="flex items-center space-x-2">
-                        <img src={logo} alt="Groovava Admin" className="h-8 w-auto" />
+                        <img src={logo} alt="Groovava Admin" className="h-12 w-auto" />
                     </Link>
                 </div>
 
